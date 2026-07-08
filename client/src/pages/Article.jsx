@@ -397,22 +397,106 @@ function Article() {
 
   var renderContent = function(content) {
     if (!content) return null;
-    var hasMarkdown = /[#*`\[\]]/.test(content);
-    if (hasMarkdown) {
-      return (
-        <div className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-stone-900 prose-h2:text-2xl prose-h3:text-xl prose-p:leading-8 prose-p:text-stone-700 prose-strong:text-stone-900 prose-a:text-red-700 prose-li:text-stone-700 prose-li:marker:text-red-700 prose-ul:my-4 prose-ol:my-4">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-        </div>
-      );
-    }
-    var paragraphs = content.split('\n\n');
-    return paragraphs.map(function(paragraph, idx) {
-      return (
-        <p key={idx} className="mb-4 leading-8 text-stone-700">
-          {paragraph}
-        </p>
-      );
-    });
+
+    // Custom component overrides for beautiful, newspaper-quality markdown rendering
+    var markdownComponents = {
+      h1: function(props) {
+        return <h1 className="font-serif text-3xl font-bold text-stone-900 mt-8 mb-4 pb-3 border-b-2 border-red-100" {...props} />;
+      },
+      h2: function(props) {
+        return <h2 className="font-serif text-2xl font-bold text-stone-900 mt-8 mb-3 pb-2 border-b border-stone-200" {...props} />;
+      },
+      h3: function(props) {
+        return <h3 className="font-serif text-xl font-semibold text-stone-800 mt-6 mb-2" {...props} />;
+      },
+      h4: function(props) {
+        return <h4 className="font-serif text-lg font-semibold text-stone-800 mt-5 mb-2" {...props} />;
+      },
+      h5: function(props) {
+        return <h5 className="font-serif text-base font-semibold text-stone-700 mt-4 mb-1" {...props} />;
+      },
+      h6: function(props) {
+        return <h6 className="font-serif text-sm font-semibold text-stone-600 mt-4 mb-1 uppercase tracking-wider" {...props} />;
+      },
+      p: function(props) {
+        return <p className="mb-5 leading-8 text-stone-700 text-[1.05rem]" {...props} />;
+      },
+      a: function(props) {
+        return <a className="text-red-700 underline decoration-red-300 underline-offset-2 hover:text-red-900 hover:decoration-red-500 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />;
+      },
+      blockquote: function(props) {
+        return (
+          <blockquote className="border-l-4 border-red-600 bg-red-50/40 pl-5 pr-4 py-3 my-6 rounded-r-xl italic text-stone-600" {...props} />
+        );
+      },
+      ul: function(props) {
+        return <ul className="my-4 pl-6 space-y-2 list-disc marker:text-red-600" {...props} />;
+      },
+      ol: function(props) {
+        return <ol className="my-4 pl-6 space-y-2 list-decimal marker:text-red-600 marker:font-semibold" {...props} />;
+      },
+      li: function(props) {
+        return <li className="leading-7 text-stone-700 pl-1" {...props} />;
+      },
+      strong: function(props) {
+        return <strong className="font-semibold text-stone-900" {...props} />;
+      },
+      em: function(props) {
+        return <em className="italic text-stone-600" {...props} />;
+      },
+      hr: function() {
+        return <hr className="my-8 border-t-2 border-stone-200" />;
+      },
+      img: function(props) {
+        return (
+          <figure className="my-6">
+            <img className="w-full rounded-xl shadow-md object-cover max-h-[500px]" loading="lazy" {...props} />
+            {props.alt && (
+              <figcaption className="mt-2 text-center text-sm text-stone-500 italic">{props.alt}</figcaption>
+            )}
+          </figure>
+        );
+      },
+      table: function(props) {
+        return (
+          <div className="my-6 overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
+            <table className="w-full border-collapse text-sm" {...props} />
+          </div>
+        );
+      },
+      thead: function(props) {
+        return <thead className="bg-stone-100" {...props} />;
+      },
+      th: function(props) {
+        return <th className="px-4 py-3 text-left font-semibold text-stone-800 border-b border-stone-200 text-sm uppercase tracking-wider" {...props} />;
+      },
+      td: function(props) {
+        return <td className="px-4 py-3 text-stone-700 border-b border-stone-100" {...props} />;
+      },
+      tr: function(props) {
+        return <tr className="hover:bg-stone-50 transition-colors" {...props} />;
+      },
+      code: function(props) {
+        var isInline = !props.className;
+        if (isInline) {
+          return <code className="bg-stone-100 text-red-700 px-1.5 py-0.5 rounded text-sm font-mono" {...props} />;
+        }
+        return (
+          <code className="block bg-stone-900 text-stone-100 p-4 rounded-xl overflow-x-auto text-sm font-mono leading-relaxed my-4" {...props} />
+        );
+      },
+      pre: function(props) {
+        return <pre className="bg-stone-900 text-stone-100 p-5 rounded-xl overflow-x-auto text-sm font-mono leading-relaxed my-6 shadow-lg" {...props} />;
+      },
+    };
+
+    return (
+      <div className="prose prose-stone max-w-none">
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+          {content}
+        </ReactMarkdown>
+      </div>
+    );
   };
 
   var currentChannels = NEWS_CHANNELS[selectedRegion] ? NEWS_CHANNELS[selectedRegion].channels : [];

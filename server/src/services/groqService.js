@@ -31,7 +31,8 @@ export function extractMarkdownSection(markdown, heading) {
 async function analyzeTextWithGroq(systemPrompt, articleText) {
     try {
         // Limit article length to reduce token usage
-        const trimmedArticle = articleText.substring(0, 5000);
+        // Llama 3.3 70B supports 128K context — allow more input for better analysis
+        const trimmedArticle = articleText.substring(0, 12000);
 
         const response = await axios.post(
             API_URL, {
@@ -46,7 +47,7 @@ async function analyzeTextWithGroq(systemPrompt, articleText) {
                     },
                 ],
                 temperature: 0.2,
-                max_tokens: 700,
+                max_tokens: 4096,
             }, {
                 headers: {
                     Authorization: `Bearer ${API_KEY}`,

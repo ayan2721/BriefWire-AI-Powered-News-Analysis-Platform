@@ -9,6 +9,7 @@ import Article from './pages/Article.jsx';
 import NotFound from './pages/NotFound.jsx';
 import AuthProvider, { useAuth } from './context/AuthContext.jsx';
 import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -42,6 +43,7 @@ function App() {
             </Routes>
           </motion.main>
         </AnimatePresence>
+        <Footer />
       </div>
     </AuthProvider>
   );
