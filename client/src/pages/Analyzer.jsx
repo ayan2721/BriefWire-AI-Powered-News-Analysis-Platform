@@ -391,7 +391,8 @@ function Analyzer() {
     try {
       const translateOne = async (text) => {
         if (!text || !text.trim()) return '';
-        const res = await fetch('/api/translate', {
+        const apiBase = import.meta.env.VITE_API_BASE_URL || '/api';
+        const res = await fetch(`${apiBase}/translate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ q: text, target: targetCode, format: 'text' }),
@@ -469,7 +470,7 @@ function Analyzer() {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-[2rem] border border-stone-200 bg-gradient-to-br from-white to-stone-50/50 p-8 shadow-sm"
+        className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-gradient-to-br from-white to-stone-50/50 p-5 sm:p-8 shadow-sm"
       >
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-700 text-white shadow-lg shadow-red-700/20">
@@ -600,9 +601,9 @@ function Analyzer() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
-              className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm"
+              className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-white p-5 sm:p-8 shadow-sm"
             >
-              <div className="flex items-center justify-between border-b border-stone-200 pb-4 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200 pb-4 mb-6 gap-3">
                 <div className="flex items-center gap-3">
                   <span className="h-5 w-1.5 rounded-full bg-red-700" />
                   <ShieldCheck className="h-5 w-5 text-red-700" strokeWidth={2.25} />
@@ -709,9 +710,9 @@ function Analyzer() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm"
+              className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-white p-5 sm:p-8 shadow-sm"
             >
-              <div className="flex items-center justify-between border-b border-stone-200 pb-4 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-200 pb-4 mb-6 gap-3">
                 <div className="flex items-center gap-3">
                   <span className="h-5 w-1.5 rounded-full bg-red-700" />
                   <FileText className="h-5 w-5 text-red-700" strokeWidth={2.25} />

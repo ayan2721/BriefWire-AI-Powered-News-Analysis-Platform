@@ -507,7 +507,7 @@ function Article() {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm"
+        className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-white p-4 sm:p-6 shadow-sm"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -651,9 +651,9 @@ function Article() {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm"
+        className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-white p-4 sm:p-6 shadow-sm"
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-red-700">
               <LinkIcon className="h-5 w-5" />

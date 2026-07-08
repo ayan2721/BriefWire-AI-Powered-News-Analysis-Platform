@@ -259,7 +259,7 @@ function Dashboard() {
 
   return (
     <section className="mx-auto max-w-6xl space-y-8">
-      <div className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm">
+      <div className="rounded-2xl sm:rounded-[2rem] border border-stone-200 bg-white p-5 sm:p-8 shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-700">BriefWire Dashboard</p>
         <h1 className="mt-3 font-serif text-3xl font-bold text-stone-900">
           Welcome back, {user?.name || 'Reader'}
@@ -427,8 +427,8 @@ function Dashboard() {
 
       {/* Modal for full content view */}
       {modalOpen && selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-[2rem] max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl sm:rounded-[2rem] max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-xl">
             <div className="flex justify-between items-start p-6 border-b border-stone-200">
               <div>
                 <h3 className="font-serif text-xl font-bold text-stone-900">
